@@ -39,11 +39,11 @@ fetch("https://api.ecommerce.nextar.com/prod/api/products", options)
         window.open(imgUrl, "_blank");
       });
 
-      const namePara = document.createElement("p");
+      const namePara = document.createElement("h5");
       namePara.textContent = productName;
 
       const codePara = document.createElement("p");
-      codePara.textContent = `Código do produto: ${productCode}`;
+      codePara.textContent = `(Código ${productCode})`;
 
       // Adicionar elementos ao div do produto
       productDiv.appendChild(img);
