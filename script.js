@@ -1,21 +1,65 @@
 const options = {
-  method: "GET",
+  method: "POST",
   headers: {
-    "x-rr-store-id": "dc148d1b-15cb-4489-8762-8665a0b37970",
+    "Content-Type": "application/json",
+    "shop-code": "648669",
+    "origin": "https://meucomercio.com.br"
   },
+  body: JSON.stringify({
+    filter: {
+      category: "",
+      subCategory: "",
+      search: "",
+      lowStock: false,
+      stockControl: true,
+      sort: { ProductName: 1 },
+      page: 1,
+      perPage: 300,
+      onlyPromo: false,
+      projection: [
+        "ProductId",
+        "ShopCode",
+        "BarCode",
+        "ProductCode",
+        "ProductCode2",
+        "Brand",
+        "Category",
+        "CategorySlug",
+        "SubCategory",
+        "SubCategorySlug",
+        "CurrentStock",
+        "Photos",
+        "ProductImg",
+        "ProductName",
+        "ProductUId",
+        "SalePrice",
+        "PromoActive",
+        "PromoEndAt",
+        "PromoInitAt",
+        "PromoSalePrice",
+        "ProductDescr",
+        "Unit",
+        "tax",
+        "TaxID",
+        "TaxUID",
+        "storage",
+        "isFractioned",
+        "productStockControl"
+      ],
+      sortFilter: "A-Z"
+    }
+  })
 };
 
 let productList = [];
 
 function fetchProducts(page = 1) {
-  fetch(`https://api.rediredi.com/inventory/storefront/items?sortBy=title.asc&perPage=250&page=${page}&query=&filterBy=quantityAvailable%3A%3E0`, options)
+  fetch(`https://api.ecommerce.nextar.com/prod/api/products`, options)
     .then((response) => response.json())
     .then((data) => {
-      productList = productList.concat(data.data); // Adicionar produtos ao array
+      productList = productList.concat(data.list); // Adicionar produtos ao array
       displayProducts(productList); // Exibir produtos
-      if (data.nextPage) { // Verificar se há uma próxima página
-        fetchProducts(data.nextPage); // Buscar próxima página
-      }
+      // Adicionar lógica para paginação se necessário
     })
     .catch((err) => console.error(err));
 }
@@ -25,10 +69,9 @@ function displayProducts(products) {
   container.innerHTML = ""; // Limpar o container antes de exibir os produtos
 
   products.forEach((product) => {
-    // Extrair as informações necessárias
-    const productId = product.baseVariant.sku; // Usar o 'sku' como ID
-    const productName = product.baseVariant.title; // Usar 'title' como nome
-    const productImg = product.pictures[0]; // Usar a primeira imagem da lista 'pictures'
+    const productId = product.ProductId; // ID do produto
+    const productName = product.ProductName; // Nome do produto
+    const productImg = product.Photos[0]?.url || "placeholder.jpg"; // Primeira imagem ou um placeholder
 
     // Criar elementos HTML
     const productDiv = document.createElement("div");
@@ -64,7 +107,7 @@ function displayProducts(products) {
 document.getElementById("search-input").addEventListener("input", (event) => {
   const searchTerm = event.target.value.toLowerCase();
   const filteredProducts = productList.filter((product) =>
-    product.baseVariant.title.toLowerCase().includes(searchTerm)
+    product.ProductName.toLowerCase().includes(searchTerm)
   );
   displayProducts(filteredProducts); // Exibir produtos filtrados
 });
