@@ -1,10 +1,70 @@
 /* Estilos básicos para os produtos */
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f8f7f3;
+}
+
+.nav {
+  background: #f8f7f3;
+  height: auto;
+  padding: 10px 0;
+  margin-bottom: 34px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo img {
+  width: 64px;
+  height: 64px;
+  margin-right: 24px;
+}
+
+.logo h1 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.logo p {
+  font-size: 12px;
+  margin: 0;
+  color: #5e5e5e;
+}
+
+.search-container {
+  margin-left: auto;
+  max-width: 400px;
+  flex: 1;
+  padding-left: 20px; /* Adiciona um espaço à esquerda da barra de pesquisa */
+}
+
+.search-input {
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+/* Estilos para a barra de pesquisa em dispositivos móveis */
+@media (max-width: 768px) {
+  .search-input {
+    width: 100%;
+  }
+}
+
 .product-container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 20px;
+  padding: 0 54px;
 }
 
 .product {
@@ -13,7 +73,6 @@
   padding: 10px;
   width: 350px;
   text-align: center;
-  cursor: pointer;
 }
 
 .product img {
@@ -21,8 +80,99 @@
   height: auto;
   border-radius: 8px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .product p {
   margin: 5px 0;
+}
+
+/* Botão estilizado pelo Bootstrap */
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.bi-whatsapp {
+  margin-right: 5px;
+}
+
+.codigo {
+  font-size: 12px;
+  color: #5e5e5e;
+  margin: 0;
+  padding: 0;
+}
+
+.preco {
+  font-size: 18px;
+}
+
+.nome {
+  font-size: 24px;
+}
+
+.sizes-container {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0 12px 0;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.size-box {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  background-color: #f8f8f8;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Adiciona estilos para os botões */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+@media (max-width: 1280px) {
+  .logo {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .logo h1 {
+    font-size: 22px;
+  }
+
+  .logo p {
+    font-size: 14px;
+  }
+
+  .search-container {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 12px;
+  }
 }
