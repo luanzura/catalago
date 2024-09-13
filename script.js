@@ -6,7 +6,7 @@ const aparecerPrecoAtacado = false; // Defina como true ou false para mostrar ou
 
 const numeroCelular = ""; // Número de WhatsApp
 const mensagemWhatsApp = "Olá, vim do seu catálogo."; // Mensagem de WhatsApp
-const mostrarNumeroCelular = true; // Defina como true ou false para mostrar ou esconder o número de celular
+const mostrarNumeroCelular = false; // Defina como true ou false para mostrar ou esconder o número de celular
 
 const nomeEmpresa = "Atacado"; // Nome da empresa
 const logoUrl = "./assets/logo.jpg"; // URL do logo
