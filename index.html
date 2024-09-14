@@ -30,13 +30,20 @@
           <h1></h1>
           <p>Catálogo Online</p>
         </div>
-        <div class="search-container">
+        <div class="search-container d-flex">
           <input
             type="text"
             id="search-input"
-            class="form-control"
+            class="form-control me-2"
             placeholder="Pesquisar por nome ou cores..."
           />
+          <button
+            id="simulador-btn"
+            class="btn btn-warning"
+            style="display: none"
+          >
+            Frete
+          </button>
         </div>
       </div>
     </div>
@@ -55,7 +62,7 @@
       <!-- Os produtos serão inseridos dinamicamente aqui -->
     </div>
 
-    <script src="script.js"></script>
-    <script src="api.js"></script>
+    <script src="script_bones.js"></script>
+    <script src="script_camisetas.js"></script>
   </body>
 </html>

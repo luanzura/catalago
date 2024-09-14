@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulação de Frete</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style_simulador.css" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Simulação de Frete</h1>
+      <form id="simulacaoForm" class="mb-5">
+        <div class="d-flex mb-3 row justify-content-center">
+          <div class="me-2 col-lg-2 col-6 mt-2">
+            <label for="quantidade" class="form-label"
+              >Quantidade de Peças</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="quantidade"
+              placeholder="Digite a quantidade"
+              required
+            />
+          </div>
+          <div class="col-lg-2 col-6 mt-2">
+            <label for="cepDestino" class="form-label">CEP de Destino</label>
+            <input
+              type="text"
+              class="form-control"
+              id="cepDestino"
+              placeholder="Digite o CEP de destino"
+              required
+            />
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-primary">Calcular Frete</button>
+        </div>
+      </form>
+
+      <div id="resultado" class="row d-none justify-content-center">
+        <div id="pac" class="col-md-4 d-none mt-2">
+          <div class="alert alert-info" role="alert">
+            <img
+              id="pac-img"
+              src=""
+              alt="Logo Correios PAC"
+              class="img-fluid mx-auto d-block"
+              style="max-width: 70px"
+            />
+            <h4 class="alert-heading text-center mt-2">Correios PAC</h4>
+            <p class="text-center">
+              <strong>Preço:</strong> R$<span id="pac-preco"></span>
+            </p>
+            <p class="text-center">
+              <strong>Prazo:</strong> <span id="pac-prazo"></span> dias
+            </p>
+          </div>
+        </div>
+        <div id="sedex" class="col-md-4 d-none mt-2">
+          <div class="alert alert-info" role="alert">
+            <img
+              id="sedex-img"
+              src=""
+              alt="Logo Correios Sedex"
+              class="img-fluid mx-auto d-block"
+              style="max-width: 70px"
+            />
+            <h4 class="alert-heading text-center mt-2">Correios Sedex</h4>
+            <p class="text-center">
+              <strong>Preço:</strong> R$<span id="sedex-preco"></span>
+            </p>
+            <p class="text-center">
+              <strong>Prazo:</strong> <span id="sedex-prazo"></span> dias
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script_simulador.js"></script>
+  </body>
+</html>
