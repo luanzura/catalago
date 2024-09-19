@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="nav">
+    <div class="nav-top">
       <div class="logo container-lg">
         <img alt="logo" />
         <div>
@@ -48,23 +48,31 @@
       </div>
     </div>
 
-        <!-- Category Buttons -->
+    <!-- Banner Container -->
+    <div id="banner-container" class="banner-container" style="display: none">
+      <img id="banner-img" src="" alt="Banner" />
+    </div>
+
     <div class="container">
-      <div class="d-flex justify-content-center mb-4">
-        <button id="todos-btn" class="btn btn-primary me-2">Todos</button>
-        <button id="camisetas-peruanas-btn" class="btn btn-primary me-2">
-          Camisetas 40.1
-        </button>
-        <button id="bones-5panel-btn" class="btn btn-primary me-2">
-          Bonés 5Panel
-        </button>
-      </div>
+      <ul class="nav nav-tabs mb-4" id="category-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" id="all-products-tab" href="#">Todos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="camisetas-peruanas-tab" href="#"
+            >Camisetas Peruanas</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="bones-premium-tab" href="#">Bonés 5Panel</a>
+        </li>
+      </ul>
     </div>
 
     <div id="product-container" class="product-container">
       <!-- Os produtos serão inseridos dinamicamente aqui -->
     </div>
-
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="script_bones.js"></script>
   </body>
 </html>
