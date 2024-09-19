@@ -10,7 +10,7 @@ const mostrarNumeroCelular = false; // Defina como true ou false para mostrar ou
 
 const nomeEmpresa = "Atacado"; // Nome da empresa
 const logoUrl = "./assets/logo.png"; // URL do logo
-const mostrarLogo = false; // Defina como true ou false para mostrar ou esconder o logo
+const mostrarLogo = true; // Defina como true ou false para mostrar ou esconder o logo
 
 const simulador = true; // Variável para mostrar ou não o botão Simulador
 
