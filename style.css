@@ -10,10 +10,10 @@ body {
 }
 
 .nav-top {
-  background: #f8f7f3;
+  background: #111111;
   height: auto;
   padding: 10px 0;
-  margin-bottom: 34px;
+  margin-bottom: 18px;
 }
 
 .logo {
@@ -23,8 +23,7 @@ body {
 }
 
 .logo img {
-  width: 64px;
-  height: 64px;
+  height: 54px;
   margin-right: 24px;
 }
 
@@ -32,6 +31,7 @@ body {
   font-size: 24px;
   margin: 0;
   font-weight: 600;
+  color: rgb(236, 236, 236);
 }
 
 .logo p {
@@ -134,25 +134,22 @@ body {
   font-size: 14px;
 }
 
-/* Adiciona estilos para os botões */
-.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+/* Estilos para o container do banner */
+.banner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 400px; /* Altura fixa para o banner */
+  overflow: hidden; /* Oculta qualquer parte da imagem que ultrapasse o container */
+  background-color: #f8f7f3; /* Cor de fundo opcional */
+  margin-bottom: 20px; /* Espaço abaixo do banner */
 }
 
-.btn-primary:hover {
-  background-color: #0056b3;
-  border-color: #004085;
-}
-
-.btn-secondary {
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
-
-.btn-secondary:hover {
-  background-color: #5a6268;
-  border-color: #545b62;
+/* Estilos para a imagem do banner */
+.banner-container img {
+  width: 100%;
+  height: 100%;
 }
 
 @media (max-width: 1280px) {
@@ -164,15 +161,30 @@ body {
 
   .logo h1 {
     font-size: 22px;
+    text-align: center;
   }
 
   .logo p {
     font-size: 14px;
+    text-align: center;
+  }
+
+  .logo img {
+    margin-right: 0;
   }
 
   .search-container {
-    margin-left: 0;
+    padding-left: 0;
     width: 100%;
     margin-top: 12px;
+  }
+
+  .banner-container {
+    height: 100%;
+  }
+
+  .banner-container img {
+    width: 100%;
+    height: auto;
   }
 }
