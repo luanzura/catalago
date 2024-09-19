@@ -33,52 +33,72 @@ const options = {
   }),
 };
 
-let productList = [];
+const categories = {
+  ALL: "",
+  CAMISETAS: "camisetas-peruana-401",
+  BONES: "bones-5panel-premium",
+};
 
-// Função para buscar e exibir os produtos da API
-function fetchProducts() {
-  fetch("https://api.ecommerce.nextar.com/prod/api/products", options)
-    .then((response) => response.json())
+// Função para buscar produtos da API
+function fetchProducts(category) {
+  const fetchOptions = {
+    ...options,
+    body: JSON.stringify({
+      ...JSON.parse(options.body),
+      filter: {
+        ...JSON.parse(options.body).filter,
+        category: category,
+      },
+    }),
+  };
+
+  fetch("https://api.ecommerce.nextar.com/prod/api/products", fetchOptions)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Erro na solicitação: " + response.statusText);
+      }
+      return response.json();
+    })
     .then((data) => {
-      productList = data.list;
-      displayProducts(productList);
+      if (Array.isArray(data.list)) {
+        displayProducts(data.list);
+      } else {
+        console.error("A resposta da API não contém uma lista de produtos.");
+      }
     })
     .catch((err) => console.error("Erro ao buscar produtos:", err));
 }
 
-// Função para exibir produtos filtrados por categoria
-function displayProducts(products, category = "Todos") {
+// Função para exibir os produtos
+function displayProducts(products) {
   const container = document.getElementById("product-container");
-  container.innerHTML = "";
+  container.innerHTML = ""; // Limpar o container antes de exibir os produtos
 
-  const filteredProducts =
-    category === "Todos"
-      ? products
-      : products.filter((product) => product.Category === category);
-
-  filteredProducts.forEach((product) => {
+  products.forEach((product) => {
     const productCode = product.ProductCode;
     const productName = product.ProductName;
+    const productImg = product.ProductImg;
 
-    // Verificação se a propriedade Photos existe e se tem ao menos uma imagem
-    const productImg =
-      product.Photos && product.Photos.length > 0
-        ? product.Photos[0].url
-        : "https://via.placeholder.com/150"; // Imagem placeholder caso não tenha imagem disponível
+    const imgUrl = `https://storage.googleapis.com/nexapp-flutter.appspot.com/production/products/${productImg}`;
 
     const productDiv = document.createElement("div");
     productDiv.classList.add("col-md-4", "product", "text-center", "mb-4");
 
     const img = document.createElement("img");
-    img.src = productImg;
+    img.src = imgUrl;
     img.alt = productName;
     img.classList.add("img-fluid");
+
+    img.addEventListener("click", () => {
+      window.open(imgUrl, "_blank");
+    });
 
     const namePara = document.createElement("p");
     namePara.textContent = productName;
     namePara.classList.add("nome");
 
     const priceContainer = document.createElement("div");
+
     if (aparecerPrecoVarejo) {
       const priceVarejoPara = document.createElement("p");
       priceVarejoPara.textContent = `Varejo: R$${precoVarejo
@@ -124,48 +144,66 @@ function displayProducts(products, category = "Todos") {
   });
 }
 
-// Filtrar por categoria
+// Configuração inicial quando a página carrega
 document.addEventListener("DOMContentLoaded", () => {
-  fetchProducts();
+  // Carregar todos os produtos inicialmente
+  fetchProducts(categories.ALL);
 
-  document.getElementById("todos-btn").addEventListener("click", () => {
-    displayProducts(productList, "Todos");
-  });
+  // Configurar abas
+  const allTab = document.getElementById("all-products-tab");
+  const camisetasTab = document.getElementById("camisetas-peruanas-tab");
+  const bonesTab = document.getElementById("bones-premium-tab");
 
-  document
-    .getElementById("camisetas-peruanas-btn")
-    .addEventListener("click", () => {
-      displayProducts(productList, "Camisetas Peruana 40.1 ");
+  if (allTab) {
+    allTab.addEventListener("click", () => {
+      fetchProducts(categories.ALL);
     });
+  }
 
-  document.getElementById("bones-5panel-btn").addEventListener("click", () => {
-    displayProducts(productList, "Bonés 5Panel Premium");
-  });
+  if (camisetasTab) {
+    camisetasTab.addEventListener("click", () => {
+      fetchProducts(categories.CAMISETAS);
+    });
+  }
 
-  document.getElementById("search-input").addEventListener("input", (event) => {
-    const searchTerm = event.target.value.toLowerCase();
-    const filteredProducts = productList.filter((product) =>
-      product.ProductName.toLowerCase().includes(searchTerm)
-    );
+  if (bonesTab) {
+    bonesTab.addEventListener("click", () => {
+      fetchProducts(categories.BONES);
+    });
+  }
 
-    displayProducts(filteredProducts);
-  });
-
+  // Exibe o botão "Simulador" ao lado da barra de pesquisa se simulador for true
   const simuladorButton = document.getElementById("simulador-btn");
-  if (simulador) {
+  if (simulador && simuladorButton) {
     simuladorButton.style.display = "inline-block";
     simuladorButton.addEventListener("click", () => {
-      window.location.href = "simulador.html";
+      window.location.href = "simulador.html"; // Redireciona para simulador.html
     });
   }
 
-  const bannerContainer = document.getElementById("banner-container");
-  const bannerImg = document.getElementById("banner-img");
+  // Atualiza o HTML da página inicial com nome da empresa e logo, se necessário
+  if (mostrarLogo) {
+    const logoImg = document.querySelector(".logo img");
+    const logoTitle = document.querySelector(".logo h1");
 
-  if (banner) {
+    if (logoImg) {
+      logoImg.src = logoUrl;
+    }
+
+    if (logoTitle) {
+      logoTitle.textContent = nomeEmpresa;
+    }
+  }
+
+  // Exibe o banner se a variável banner for true
+  const bannerContainer = document.getElementById("banner-container");
+  if (banner && bannerContainer) {
     bannerContainer.style.display = "block";
-    bannerImg.src = bannerUrl;
-  } else {
-    bannerContainer.style.display = "none";
+    const bannerImg = document.getElementById("banner-img");
+
+    if (bannerImg) {
+      bannerImg.src = bannerUrl;
+    }
   }
 });
+
