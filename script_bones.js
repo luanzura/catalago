@@ -1,18 +1,17 @@
 // Variáveis globais para controlar os preços e a visibilidade
-const precoVarejo = 39.9; // Defina o valor de varejo aqui
-const precoAtacado = 18.0; // Defina o valor de atacado aqui
-const aparecerPrecoVarejo = false; // Defina como true ou false para mostrar ou esconder o preço de varejo
-const aparecerPrecoAtacado = false; // Defina como true ou false para mostrar ou esconder o preço de atacado
+const precoVarejo = 39.9;
+const precoAtacado = 18.0;
+const aparecerPrecoVarejo = true;
+const aparecerPrecoAtacado = true;
 
-const numeroCelular = ""; // Número de WhatsApp
-const mensagemWhatsApp = "Olá, vim do seu catálogo."; // Mensagem de WhatsApp
-const mostrarNumeroCelular = false; // Defina como true ou false para mostrar ou esconder o número de celular
+const numeroCelular = "1234567890";
+const mensagemWhatsApp = "Olá, vim do seu catálogo.";
+const mostrarNumeroCelular = true;
 
-const nomeEmpresa = "Atacado"; // Nome da empresa
-const logoUrl = "./assets/logo.jpg"; // URL do logo
-const mostrarLogo = false; // Defina como true ou false para mostrar ou esconder o logo
+const simulador = true;
 
-const simulador = true; // Variável para mostrar ou não o botão Simulador
+const banner = true;
+const bannerUrl = "./assets/banner.png";
 
 const options = {
   method: "POST",
@@ -34,51 +33,52 @@ const options = {
   }),
 };
 
-let bonesPremiumProductList = [];
+let productList = [];
 
-// Função para buscar e exibir os produtos da API Bones Premium
-function fetchBonesPremiumProducts() {
+// Função para buscar e exibir os produtos da API
+function fetchProducts() {
   fetch("https://api.ecommerce.nextar.com/prod/api/products", options)
     .then((response) => response.json())
     .then((data) => {
-      bonesPremiumProductList = data.list; // Salvar a lista de produtos
-      displayProducts(bonesPremiumProductList); // Exibir produtos
+      productList = data.list;
+      displayProducts(productList);
     })
-    .catch((err) =>
-      console.error("Erro ao buscar produtos Bones Premium:", err)
-    );
+    .catch((err) => console.error("Erro ao buscar produtos:", err));
 }
 
-// Função para exibir os produtos
-function displayProducts(products) {
+// Função para exibir produtos filtrados por categoria
+function displayProducts(products, category = "Todos") {
   const container = document.getElementById("product-container");
-  container.innerHTML = ""; // Limpar o container antes de exibir os produtos
+  container.innerHTML = "";
 
-  products.forEach((product) => {
+  const filteredProducts =
+    category === "Todos"
+      ? products
+      : products.filter((product) => product.Category === category);
+
+  filteredProducts.forEach((product) => {
     const productCode = product.ProductCode;
     const productName = product.ProductName;
-    const productImg = product.ProductImg;
 
-    const imgUrl = `https://storage.googleapis.com/nexapp-flutter.appspot.com/production/products/${productImg}`;
+    // Verificação se a propriedade Photos existe e se tem ao menos uma imagem
+    const productImg =
+      product.Photos && product.Photos.length > 0
+        ? product.Photos[0].url
+        : "https://via.placeholder.com/150"; // Imagem placeholder caso não tenha imagem disponível
 
     const productDiv = document.createElement("div");
     productDiv.classList.add("col-md-4", "product", "text-center", "mb-4");
 
     const img = document.createElement("img");
-    img.src = imgUrl;
+    img.src = productImg;
     img.alt = productName;
     img.classList.add("img-fluid");
-
-    img.addEventListener("click", () => {
-      window.open(imgUrl, "_blank");
-    });
 
     const namePara = document.createElement("p");
     namePara.textContent = productName;
     namePara.classList.add("nome");
 
     const priceContainer = document.createElement("div");
-
     if (aparecerPrecoVarejo) {
       const priceVarejoPara = document.createElement("p");
       priceVarejoPara.textContent = `Varejo: R$${precoVarejo
@@ -102,7 +102,7 @@ function displayProducts(products) {
     const contactButton = document.createElement("a");
     contactButton.href = `https://wa.me/${numeroCelular}?text=${encodeURIComponent(
       mensagemWhatsApp
-    )}`; // URL para o WhatsApp
+    )}`;
     contactButton.target = "_blank";
     contactButton.classList.add("btn", "btn-success", "mt-2", "mb-2");
 
@@ -124,53 +124,48 @@ function displayProducts(products) {
   });
 }
 
-// Configuração inicial quando a página carrega
+// Filtrar por categoria
 document.addEventListener("DOMContentLoaded", () => {
-  fetchBonesPremiumProducts(); // Buscar e exibir produtos ao carregar a página
+  fetchProducts();
 
-  document.getElementById("bones-premium-btn").addEventListener("click", () => {
-    fetchBonesPremiumProducts(); // Atualizar produtos ao clicar no botão "Bones Premium"
+  document.getElementById("todos-btn").addEventListener("click", () => {
+    displayProducts(productList, "Todos");
+  });
+
+  document
+    .getElementById("camisetas-peruanas-btn")
+    .addEventListener("click", () => {
+      displayProducts(productList, "Camisetas Peruana 40.1 ");
+    });
+
+  document.getElementById("bones-5panel-btn").addEventListener("click", () => {
+    displayProducts(productList, "Bonés 5Panel Premium");
   });
 
   document.getElementById("search-input").addEventListener("input", (event) => {
     const searchTerm = event.target.value.toLowerCase();
-    const filteredProducts = bonesPremiumProductList.filter((product) =>
+    const filteredProducts = productList.filter((product) =>
       product.ProductName.toLowerCase().includes(searchTerm)
     );
 
     displayProducts(filteredProducts);
   });
 
-  // Exibe o botão "Simulador" ao lado da barra de pesquisa se simulador for true
   const simuladorButton = document.getElementById("simulador-btn");
   if (simulador) {
     simuladorButton.style.display = "inline-block";
     simuladorButton.addEventListener("click", () => {
-      window.location.href = "simulador.html"; // Redireciona para simulador.html
+      window.location.href = "simulador.html";
     });
   }
 
-  // Atualiza o HTML da página com o nome e o logo da empresa
-  const logoContainer = document.querySelector(".logo");
+  const bannerContainer = document.getElementById("banner-container");
+  const bannerImg = document.getElementById("banner-img");
 
-  if (mostrarLogo) {
-    const logoImg = logoContainer.querySelector("img");
-    if (logoImg) {
-      logoImg.src = logoUrl;
-      logoImg.alt = nomeEmpresa;
-    } else {
-      const newLogoImg = document.createElement("img");
-      newLogoImg.src = logoUrl;
-      newLogoImg.alt = nomeEmpresa;
-      newLogoImg.classList.add("img-fluid");
-      logoContainer.prepend(newLogoImg);
-    }
+  if (banner) {
+    bannerContainer.style.display = "block";
+    bannerImg.src = bannerUrl;
   } else {
-    const logoImg = logoContainer.querySelector("img");
-    if (logoImg) {
-      logoImg.remove();
-    }
+    bannerContainer.style.display = "none";
   }
-
-  document.querySelector(".logo h1").textContent = nomeEmpresa;
 });
