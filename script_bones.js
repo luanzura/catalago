@@ -1,17 +1,22 @@
 // Variáveis globais para controlar os preços e a visibilidade
-const precoVarejo = 39.9;
-const precoAtacado = 18.0;
-const aparecerPrecoVarejo = true;
-const aparecerPrecoAtacado = true;
+const precoVarejo = 39.9; // Defina o valor de varejo aqui
+const precoAtacado = 18.0; // Defina o valor de atacado aqui
+const aparecerPrecoVarejo = false; // Defina como true ou false para mostrar ou esconder o preço de varejo
+const aparecerPrecoAtacado = false; // Defina como true ou false para mostrar ou esconder o preço de atacado
 
-const numeroCelular = "1234567890";
-const mensagemWhatsApp = "Olá, vim do seu catálogo.";
-const mostrarNumeroCelular = true;
+const numeroCelular = ""; // Número de WhatsApp
+const mensagemWhatsApp = "Olá, vim do seu catálogo."; // Mensagem de WhatsApp
+const mostrarNumeroCelular = true; // Defina como true ou false para mostrar ou esconder o número de celular
 
-const simulador = true;
+const nomeEmpresa = "Atacado"; // Nome da empresa
+const logoUrl = "./assets/logo.png"; // URL do logo
+const mostrarLogo = false; // Defina como true ou false para mostrar ou esconder o logo
 
-const banner = true;
-const bannerUrl = "./assets/banner.png";
+const simulador = true; // Variável para mostrar ou não o botão Simulador
+
+// Variáveis globais para o banner
+const banner = false; // Defina como true para mostrar o banner ou false para ocultar
+const bannerUrl = "./assets/banner.png"; // URL do banner
 
 const options = {
   method: "POST",
@@ -206,4 +211,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
-
