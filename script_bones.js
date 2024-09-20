@@ -1,21 +1,21 @@
 // Variáveis globais para controlar os preços e a visibilidade
 const precoVarejo = 39.9; // Defina o valor de varejo aqui
 const precoAtacado = 18.0; // Defina o valor de atacado aqui
-const aparecerPrecoVarejo = false; // Defina como true ou false para mostrar ou esconder o preço de varejo
-const aparecerPrecoAtacado = false; // Defina como true ou false para mostrar ou esconder o preço de atacado
+const aparecerPrecoVarejo = false; // Mostrar ou esconder preço de varejo
+const aparecerPrecoAtacado = false; // Mostrar ou esconder preço de atacado
 
 const numeroCelular = ""; // Número de WhatsApp
 const mensagemWhatsApp = "Olá, vim do seu catálogo."; // Mensagem de WhatsApp
-const mostrarNumeroCelular = false; // Defina como true ou false para mostrar ou esconder o número de celular
+const mostrarNumeroCelular = false; // Mostrar ou esconder número de celular
 
 const nomeEmpresa = "Atacado"; // Nome da empresa
 const logoUrl = "./assets/logo.png"; // URL do logo
-const mostrarLogo = true; // Defina como true ou false para mostrar ou esconder o logo
+const mostrarLogo = true; // Mostrar ou esconder o logo
 
 const simulador = true; // Variável para mostrar ou não o botão Simulador
 
 // Variáveis globais para o banner
-const banner = false; // Defina como true para mostrar o banner ou false para ocultar
+const banner = false; // Mostrar ou ocultar o banner
 const bannerUrl = "./assets/banner.png"; // URL do banner
 
 const options = {
@@ -41,8 +41,13 @@ const options = {
 const categories = {
   ALL: "",
   CAMISETAS: "camisetas-peruana-401",
-  BONES: "bones-5panel-premium",
+  PANEL: "bones-5panel-premium",
+  RASGADINHO: "bones-rasgadinho",
+  COUNTRY: "bones-country",
 };
+
+// Variável global para armazenar todos os produtos
+let allProducts = [];
 
 // Função para buscar produtos da API
 function fetchProducts(category) {
@@ -66,7 +71,8 @@ function fetchProducts(category) {
     })
     .then((data) => {
       if (Array.isArray(data.list)) {
-        displayProducts(data.list);
+        allProducts = data.list; // Armazena todos os produtos
+        displayProducts(allProducts); // Exibe todos os produtos inicialmente
       } else {
         console.error("A resposta da API não contém uma lista de produtos.");
       }
@@ -149,6 +155,14 @@ function displayProducts(products) {
   });
 }
 
+// Função para filtrar produtos com base na pesquisa
+function filterProducts(searchTerm) {
+  const filteredProducts = allProducts.filter((product) =>
+    product.ProductName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  displayProducts(filteredProducts);
+}
+
 // Configuração inicial quando a página carrega
 document.addEventListener("DOMContentLoaded", () => {
   // Carregar todos os produtos inicialmente
@@ -157,7 +171,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Configurar abas
   const allTab = document.getElementById("all-products-tab");
   const camisetasTab = document.getElementById("camisetas-peruanas-tab");
-  const bonesTab = document.getElementById("bones-premium-tab");
+  const bonesPanel = document.getElementById("bones-panel");
+  const bonesRasgadinho = document.getElementById("bones-rasgadinho");
+  const bonesCountry = document.getElementById("bones-country");
 
   if (allTab) {
     allTab.addEventListener("click", () => {
@@ -171,9 +187,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (bonesTab) {
-    bonesTab.addEventListener("click", () => {
-      fetchProducts(categories.BONES);
+  if (bonesPanel) {
+    bonesPanel.addEventListener("click", () => {
+      fetchProducts(categories.PANEL);
+    });
+  }
+
+  if (bonesRasgadinho) {
+    bonesRasgadinho.addEventListener("click", () => {
+      fetchProducts(categories.RASGADINHO);
+    });
+  }
+
+  if (bonesCountry) {
+    bonesCountry.addEventListener("click", () => {
+      fetchProducts(categories.COUNTRY);
     });
   }
 
@@ -209,5 +237,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (bannerImg) {
       bannerImg.src = bannerUrl;
     }
+  }
+
+  // Adiciona a funcionalidade de pesquisa
+  const searchInput = document.getElementById("search-input");
+  if (searchInput) {
+    searchInput.addEventListener("input", (event) => {
+      const searchTerm = event.target.value;
+      filterProducts(searchTerm);
+    });
   }
 });
