@@ -152,6 +152,27 @@ body {
   height: 100%;
 }
 
+/* Estilo para a aba ativa */
+.nav-tabs .nav-link.active {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+/* Estilo para as abas inativas */
+.nav-tabs .nav-link {
+  color: #5e5e5e;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+/* Estilo de hover para as abas inativas */
+.nav-tabs .nav-link:hover {
+  color: #000000;
+  background-color: #f8f8f8;
+  border-color: #ddd;
+}
+
 @media (max-width: 1280px) {
   .logo {
     justify-content: center;
@@ -186,5 +207,37 @@ body {
   .banner-container img {
     width: 100%;
     height: auto;
+  }
+
+  /* Torna as abas roláveis horizontalmente */
+  .nav-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    justify-content: start;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Estilos para os itens da lista de abas */
+  .nav-tabs .nav-item {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  /* Ajuste o tamanho das abas para caber melhor na tela pequena */
+  .nav-tabs .nav-link {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  /* Ajuste para ícones, se estiverem presentes */
+  .nav-tabs .nav-link .bi {
+    font-size: 18px;
+    margin-right: 5px;
+  }
+
+  /* Margem para o container de navegação em geral */
+  .nav-item {
+    margin-bottom: 5px;
   }
 }
