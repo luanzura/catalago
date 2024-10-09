@@ -44,6 +44,7 @@ const categories = {
   PANEL: "bones-5panel-premium",
   RASGADINHO: "bones-rasgadinho",
   COUNTRY: "bones-country",
+  INFANTIL: "bone-infantil",
 };
 
 // Variável global para armazenar todos os produtos
@@ -73,6 +74,7 @@ function fetchProducts(category) {
       if (Array.isArray(data.list)) {
         allProducts = data.list; // Armazena todos os produtos
         displayProducts(allProducts); // Exibe todos os produtos inicialmente
+        calculateTotalQuantity(allProducts); // Calcula o total de peças
       } else {
         console.error("A resposta da API não contém uma lista de produtos.");
       }
@@ -161,6 +163,14 @@ function filterProducts(searchTerm) {
     product.ProductName.toLowerCase().includes(searchTerm.toLowerCase())
   );
   displayProducts(filteredProducts);
+  calculateTotalQuantity(filteredProducts); // Recalcula a quantidade quando filtra
+}
+
+// Função para calcular o total de peças e exibir no HTML
+function calculateTotalQuantity(products) {
+  const totalQuantity = products.length;
+  const quantidadeDiv = document.querySelector(".quantidade");
+  quantidadeDiv.textContent = `${totalQuantity}`;
 }
 
 // Configuração inicial quando a página carrega
@@ -174,6 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const bonesPanel = document.getElementById("bones-panel");
   const bonesRasgadinho = document.getElementById("bones-rasgadinho");
   const bonesCountry = document.getElementById("bones-country");
+  const bonesInfantil = document.getElementById("bones-infantil");
 
   if (allTab) {
     allTab.addEventListener("click", () => {
@@ -202,6 +213,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (bonesCountry) {
     bonesCountry.addEventListener("click", () => {
       fetchProducts(categories.COUNTRY);
+    });
+  }
+
+  if (bonesInfantil) {
+    bonesInfantil.addEventListener("click", () => {
+      fetchProducts(categories.INFANTIL);
     });
   }
 
@@ -242,21 +259,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Adiciona a funcionalidade de pesquisa
   const searchInput = document.getElementById("search-input");
   if (searchInput) {
-    searchInput.addEventListener("input", (event) => {
-      const searchTerm = event.target.value;
+    searchInput.addEventListener("input", (e) => {
+      const searchTerm = e.target.value;
       filterProducts(searchTerm);
     });
   }
-});
-
-const triggerTabList = [].slice.call(
-  document.querySelectorAll("#category-tabs a")
-);
-triggerTabList.forEach((triggerEl) => {
-  const tabTrigger = new bootstrap.Tab(triggerEl);
-
-  triggerEl.addEventListener("click", (event) => {
-    event.preventDefault();
-    tabTrigger.show();
-  });
 });
